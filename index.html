@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bibliographic Metadata Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Spectral:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1510;
+      --paper: #f5f0e8;
+      --cream: #ede7d3;
+      --gold: #b8892a;
+      --gold-light: #d4a843;
+      --rust: #8b3a2a;
+      --muted: #7a6f5e;
+      --card-shadow: 6px 8px 24px rgba(26,21,16,0.25);
+      --overlay-bg: rgba(10, 8, 5, 0.92);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--ink);
+      overscroll-behavior: none;
+    }
+
+    body {
+      font-family: 'Spectral', Georgia, serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overscroll-behavior: none;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 60px,
+        rgba(184,137,42,0.06) 60px,
+        rgba(184,137,42,0.06) 61px
+      );
+      pointer-events: none;
+    }
+    .header-rule {
+      width: 80px;
+      height: 2px;
+      background: var(--gold);
+      margin: 0 auto 1.2rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+    header p.subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    header p.desc {
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(245,240,232,0.65);
+      max-width: 520px;
+      margin: 0.5rem auto 0;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      background: var(--cream);
+      border-bottom: 1px solid rgba(26,21,16,0.12);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    nav a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      padding: 0.8rem 1.6rem;
+      border-right: 1px solid rgba(26,21,16,0.1);
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:first-child { border-left: 1px solid rgba(26,21,16,0.1); }
+    nav a:hover { color: var(--ink); background: rgba(184,137,42,0.08); }
+
+    /* ─── MAIN CONTENT ─── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+    }
+
+    /* ─── SECTION HEADINGS ─── */
+    .section-head {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-top: 1px solid rgba(26,21,16,0.15);
+      padding-top: 0.6rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    /* ─── BOOK GRID ─── */
+    #collection {
+      scroll-margin-top: 2rem;
+    }
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      margin-bottom: 5rem;
+    }
+
+    .book-card {
+      cursor: pointer;
+      position: relative;
+    }
+    .book-card-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2/3;
+      overflow: hidden;
+      border-radius: 2px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s;
+    }
+    .book-card:hover .book-card-inner {
+      transform: translateY(-6px) rotate(-0.5deg);
+      box-shadow: 10px 16px 40px rgba(26,21,16,0.35);
+    }
+    .book-card-inner canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.3s;
+    }
+    .book-card:hover .book-card-inner canvas {
+      filter: brightness(0.88);
+    }
+    .book-card-inner .cover-loading {
+      width: 100%;
+      height: 100%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+    .book-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,21,16,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 0.8rem;
+    }
+    .book-card:hover .book-card-overlay {
+      opacity: 1;
+    }
+    .book-card-overlay span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+
+
+    .book-title {
+      margin-top: 0.75rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+    .book-author {
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* ─── MODAL OVERLAY ─── */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-bg);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 2rem 1rem;
+      backdrop-filter: blur(4px);
+    }
+    #modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+
+    .modal {
+      background: var(--paper);
+      max-width: 860px;
+      width: 100%;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      animation: slideUp 0.35s cubic-bezier(0.25,0.46,0.45,0.94) both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      gap: 0;
+      background: var(--ink);
+    }
+    .modal-cover {
+      width: 160px;
+      flex-shrink: 0;
+    }
+    .modal-cover img, .modal-cover canvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-title-area {
+      flex: 1;
+      padding: 1.8rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .modal-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .modal-title-area h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 900;
+      color: var(--paper);
+      line-height: 1.2;
+    }
+    .modal-title-area p.modal-author {
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      color: rgba(245,240,232,0.65);
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+    }
+    .modal-download-btn {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.45rem 0.9rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      width: fit-content;
+    }
+    .modal-download-btn:hover {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: 1px solid rgba(245,240,232,0.3);
+      color: rgba(245,240,232,0.7);
+      width: 32px;
+      height: 32px;
+      border-radius: 1px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      z-index: 10;
+    }
+    .modal-close:hover { background: rgba(245,240,232,0.15); color: white; }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    /* ─── MARC RECORD ─── */
+    .marc-section {
+      margin-bottom: 2rem;
+    }
+    .marc-section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(184,137,42,0.25);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .marc-record {
+      background: var(--ink);
+      color: #c8c0b0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.9;
+      padding: 1.6rem 1.8rem;
+      border-radius: 2px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .marc-record .marc-tag    { color: #d4a843; }
+    .marc-record .marc-ind    { color: #7a8a6a; }
+    .marc-record .marc-sub    { color: #89b4cc; }
+    .marc-record .marc-leader { color: #b07070; }
+    .marc-pending {
+      background: var(--cream);
+      border: 1px dashed rgba(26,21,16,0.2);
+      color: var(--muted);
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      padding: 1.5rem;
+      text-align: center;
+      border-radius: 2px;
+    }
+
+    /* ─── COMMENTARY ─── */
+    .reflection-area {
+      margin-bottom: 2rem;
+    }
+    .commentary-text {
+      font-family: 'Spectral', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #3a3028;
+    }
+
+    /* ─── ABOUT SECTION ─── */
+    #about {
+      scroll-margin-top: 2rem;
+      margin-bottom: 5rem;
+    }
+    .about-body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    /* ─── MOBILE ─── */
+    @media (max-width: 640px) {
+      /* Header */
+      header {
+        padding: 2.5rem 1.2rem 2rem;
+      }
+      header h1 {
+        font-size: 2.6rem;
+      }
+      header p.subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.13em;
+      }
+      header p.desc {
+        font-size: 0.95rem;
+      }
+
+      /* Main padding */
+      main {
+        padding: 2rem 1rem 4rem;
+      }
+
+      /* Grid: 2 columns on mobile */
+      .book-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
+      }
+      .book-title { font-size: 0.88rem; }
+      .book-author { font-size: 0.78rem; }
+
+      /* About */
+      .about-body { grid-template-columns: 1fr; gap: 1.5rem; }
+      .about-body h3 { font-size: 1rem; }
+      .about-body p { font-size: 0.92rem; }
+
+      /* Citations */
+      .citation { font-size: 0.9rem; }
+
+      /* Modal overlay: full screen */
+      #modal-overlay {
+        padding: 0;
+        align-items: flex-end;
+      }
+      .modal {
+        max-width: 100%;
+        width: 100%;
+        border-radius: 12px 12px 0 0;
+        max-height: 92vh;
+        display: flex;
+        flex-direction: column;
+        animation: slideUpMobile 0.3s cubic-bezier(0.25,0.46,0.45,0.94) both;
+      }
+      @keyframes slideUpMobile {
+        from { transform: translateY(100%); opacity: 1; }
+        to   { transform: translateY(0); opacity: 1; }
+      }
+
+      /* Modal header: stacked */
+      .modal-header {
+        flex-direction: row;
+        min-height: auto;
+      }
+      .modal-cover {
+        width: 90px;
+        flex-shrink: 0;
+        min-height: 130px;
+      }
+      .modal-title-area {
+        padding: 1rem 1.2rem;
+      }
+      .modal-title-area h2 {
+        font-size: 1.2rem;
+      }
+      .modal-download-btn {
+        font-size: 0.58rem;
+        padding: 0.4rem 0.7rem;
+      }
+
+      /* Modal body: scrollable */
+      .modal-body {
+        padding: 1.2rem 1.2rem 0.5rem;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .marc-record {
+        font-size: 0.72rem;
+        line-height: 1.75;
+        padding: 1rem 1rem;
+      }
+      .commentary-text {
+        font-size: 0.92rem;
+      }
+      .marc-section-label {
+        font-size: 0.65rem;
+      }
+
+      /* Nav arrows: bigger touch targets */
+      .modal-footer-nav {
+        padding: 0.8rem 1.2rem 1.2rem;
+        flex-shrink: 0;
+      }
+      .modal-nav {
+        width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+      }
+
+      /* Close button */
+      .modal-close {
+        top: 0.7rem;
+        right: 0.7rem;
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Section heads */
+      .section-head { font-size: 0.68rem; }
+
+      /* Footer */
+      footer { font-size: 0.58rem; letter-spacing: 0.08em; padding: 1.2rem; }
+    }
+    .about-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+    .about-body p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #3a3028;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ─── WORKS CITED ─── */
+    #works-cited {
+      scroll-margin-top: 2rem;
+      margin-bottom: 4rem;
+    }
+    .citation {
+      font-family: 'Spectral', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #3a3028;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(26,21,16,0.08);
+      padding-left: 2em;
+      text-indent: -2em;
+    }
+    .citation:last-child { border-bottom: none; }
+    .citation a { color: var(--gold); text-decoration: none; word-break: break-all; }
+    .citation a:hover { text-decoration: underline; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(245,240,232,0.4);
+      text-align: center;
+      padding: 1.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    footer span { color: var(--gold); }
+
+    /* ─── MODAL NAV ARROWS ─── */
+    .modal-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem 1.5rem;
+      border-top: 1px solid rgba(26,21,16,0.1);
+    }
+    .modal-nav {
+      background: transparent;
+      border: 1px solid rgba(26,21,16,0.2);
+      color: var(--muted);
+      font-size: 1.2rem;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      border-radius: 2px;
+      user-select: none;
+    }
+    .modal-nav:hover { background: var(--ink); color: var(--gold); border-color: var(--ink); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-rule"></div>
+  <p class="subtitle">IS595 · Advanced Bibliographic Metadata</p>
+  <h1>Record Portfolio</h1>
+  <p class="desc">MARC 21 records, facsimiles, and reflections</p>
+</header>
+
+
+<main>
+
+  <!-- ── COLLECTION ── -->
+  <section id="collection">
+    <p class="section-head">01 — Record Collection</p>
+    <div class="book-grid" id="book-grid"></div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <p class="section-head">02 — About This Project</p>
+    <div class="about-body">
+      <div>
+        <h3>Project Overview</h3>
+        <p>
+          This portfolio was created as a final project for Dr. Bobby Bothmann's Advanced Bibliographic Metadata in May 2026. Each MARC 21 record was created following descriptive cataloging standards, spanning a range of works and formats to demonstrate cataloging proficiency.
+        </p>
+      </div>
+      <div>
+        <h3>Standards &amp; Facsimiles</h3>
+        <p>
+          All records follow <em>MARC 21 Format for Bibliographic Data</em> as maintained by the Library of Congress. Descriptive elements adhere to Resource Description and Access (RDA) conventions. Facsimile PDFs are available for download with the link in each record's detail panel.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORKS CITED ── -->
+  <section id="works-cited">
+    <p class="section-head">03 — Works Cited</p>
+    <div id="citations-list">
+      <p class="citation">Fort, C. (2008). <em>The book of the damned: The collected works of Charles Fort</em> (1st Jeremy P. Tarcher/Penguin collected ed). Jeremy P. Tarcher/Penguin.</p>
+      <p class="citation">Karber, G. T. (2023). <em>Murdle: 100 elementary to impossible mysteries to solve using logic, skill, and the power of deduction. Volume 2</em> (First edition). St. Martin's Griffin.</p>
+      <p class="citation">Kon, S., Horn, C. G., &amp; Davisson, Z. (2014). <em>Satoshi Kon's Opus</em> (First edition). Dark Horse Manga.</p>
+      <p class="citation">Kon, S., &amp; Rosewood, M. (2013). <em>Tropic of the sea</em> (First edition). Vertical Inc.</p>
+      <p class="citation">Noble, B. &amp; (n.d.). <em>The Element Encyclopedia of Secret Societies: The Ultimate A-Z of Ancient Mysteries, Lost Civilizations and Forgotten Wisdom.</em> Barnes &amp; Noble. Retrieved May 10, 2026, from <a href="https://www.barnesandnoble.com/w/the-element-encyclopedia-of-secret-societies-john-michael-greer/1102805482" target="_blank">https://www.barnesandnoble.com/w/the-element-encyclopedia-of-secret-societies-john-michael-greer/1102805482</a></p>
+      <p class="citation">Robbins, C. S., Bruun, B., &amp; Zim, H. S. (1983). <em>Birds of North America: A guide to field identification</em> (Expanded, rev. ed). Golden Press.</p>
+      <p class="citation">Sky, Maia (2025). <em>A Pocket Guide to Natal Astrology: Birth Chart Basics.</em> Microcosm Publishing. Retrieved May 10, 2026, from <a href="https://microcosmpublishing.com/catalog/zines/62940" target="_blank">https://microcosmpublishing.com/catalog/zines/62940</a></p>
+      <p class="citation">Wiegand, W. A. (2015). <em>Part of our lives: A people's history of the American public library.</em> Oxford University Press.</p>
+      <p class="citation">Willeford, C. R., &amp; Willeford, C. R. (1987). <em>High priest of California ; Wild wives.</em> Re/Search Publications.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── MODAL ── -->
+<div id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div class="modal-header">
+      <div class="modal-cover" id="modal-cover-area">
+      </div>
+      <div class="modal-title-area">
+        <h2 id="modal-title"></h2>
+        <a class="modal-download-btn" id="modal-download" href="#" download>
+          ↓ Download Facsimile PDF
+        </a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <!-- MARC -->
+      <div class="marc-section">
+        <p class="marc-section-label">MARC 21 Bibliographic Record</p>
+        <div id="modal-marc"></div>
+      </div>
+      <!-- Commentary -->
+      <div class="reflection-area">
+        <p class="marc-section-label">Commentary</p>
+        <p class="commentary-text" id="modal-commentary"></p>
+      </div>
+    </div>
+    <div class="modal-footer-nav">
+      <button class="modal-nav prev" id="modal-prev" aria-label="Previous">&#8592;</button>
+      <button class="modal-nav next" id="modal-next" aria-label="Next">&#8594;</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  IS595 · Advanced Bibliographic Metadata &nbsp;·&nbsp; <span>Nicky Martin</span> &nbsp;·&nbsp; May 2026
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+// ─── BOOK DATA ───────────────────────────────────────────────────
+const books = [
+  {
+    id: 'birds',
+    title: 'Birds of North America',
+    subtitle: 'A Guide to Field Identification',
+    author: 'Chandler S. Robbins et al.',
+    facsimile: 'facsimiles/Birds.pdf',
+    marc: `020 ## $a 9780307336569
+050 #4 $a QL681 $b .R59 1983
+082 04 $a 598.2972 $2 23
+100 1# $a Robbins, Chandler S., $e author.
+245 10 $a Birds of North America : $b a guide to field identification / $c by Chandler S. Robbins, Bertel Bruun, and Herbert S. Zim ; illustrated by Arthur Singer.
+250 ## $a Expanded, rev. ed.
+264 #1 $a New York : $b Golden Press, $c 1983.
+264 #4 $c © 1983
+300 ## $a 360 pages : $b illustrations (some color) ; $c 20 cm
+336 ## $a text $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+490 1# $a The Golden field guide series
+500 ## $a Includes index.
+504 ## $a Bibliography: p. 346.
+650 #0 $a Birds $z North America $x Identification.
+700 1# $a Bruun, Bertel, $e author.
+700 1# $a Zim, Herbert Spencer, $d 1909-1994, $e author.
+700 1# $a Singer, Arthur, $d 1917-1990, $e illustrator.
+830 #0 $a Golden field guide series.`,
+    commentary: `Subject heading Zoology—Chordates. Vertebrates—Birds—Geographical distribution—Topographical divisions—America—North America and United States—General works feels perfect. The 830, authority controlled, field for Golden Field Guide is interesting because querying this field would present works that offer strong evidence for the changing migratory patterns of North American birds over time.`,
+  },
+  {
+    id: 'book_of_the_damned',
+    title: 'The Book of the Damned',
+    subtitle: 'The Collected Works of Charles Fort',
+    author: 'Charles Fort',
+    facsimile: 'facsimiles/book of the damned.pdf',
+    marc: `020 ## $a 9781585426416 $q pbk.
+050 #4 $a AG243 $b .F66 2008
+082 04 $a 001.94 $2 23
+100 1# $a Fort, Charles, $d 1874-1932, $e author.
+245 14 $a The book of the damned : $b the collected works of Charles Fort / $c introduction by Jim Steinmeyer.
+250 ## $a 1st Jeremy P. Tarcher/Penguin collected ed.
+264 #1 $a New York : $b Jeremy P. Tarcher/Penguin, $c 2008.
+300 ## $a x, 1125 pages ; $c 23 cm
+336 ## $a text $b txt $2 rdacontent
+337 ## $a unmediated $b n $2 rdamedia
+338 ## $a volume $b nc $2 rdacarrier
+500 ## $a Includes index.
+500 ## $a "First Jeremy P. Tarcher/Penguin collected edition."
+500 ## $a Introduction titled: The gospel according to Charles Fort.
+500 ## $a Title page crayon sketch of Charles Fort first appeared in The New York Herald, June 5, 1932.
+504 ## $a Includes index.
+505 0# $a The book of the damned -- New lands -- Lo! -- Wild talents.
+520 ## $a Collects Fort's four major works cataloging anomalous phenomena and data excluded by mainstream science, including reports of spontaneous combustion, teleportation, poltergeists, mysterious aerial phenomena, and other unexplained events.
+650 #0 $a Curiosities and wonders.
+650 #0 $a Parapsychology.
+650 #0 $a Occultism.
+650 #0 $a Science $x Miscellanea.
+700 1# $a Steinmeyer, Jim, $e writer of introduction.
+700 02 $a Fort, Charles, $d 1874-1932. $t Book of the damned.
+700 02 $a Fort, Charles, $d 1874-1932. $t New lands.
+700 02 $a Fort, Charles, $d 1874-1932. $t Lo!
+700 02 $a Fort, Charles, $d 1874-1932. $t Wild talents.`,
+    commentary: `Adding the three books in this record was exciting because it collects an author's oeuvre in one record; the headings work for all four books. Creating this record also made me realize these books are public domain now! That's awesome, I'm going to republish them.`,
+  },
+  {
+    id: 'secret_society',
+    title: 'The Element Encyclopedia of Secret Societies',
+    author: 'John Michael Greer',
+    facsimile: 'facsimiles/Secret Society.pdf',
+    marc: `020 ## $a 9780007931453
+050 #4 $a HS125 $b .G74 2013
+082 04 $a 366.03 $2 23
+100 1# $a Greer, John Michael, $d 1962- $e author.
+240 10 $a Element encyclopedia of secret societies and hidden history
+245 14 $a The element encyclopedia of secret societies : $b the ultimate a-z of ancient mysteries, lost civilisations and hidden history / $c John Michael Greer.
+264 #1 $a London : $b HarperElement, $c 2013.
+264 #4 $c © 2006
+300 ## $a pages ; $b illustrations ; $c 21 cm
+336 ## $a text $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+490 1# $a Element encyclopedia
+500 ## $a "The material in this book is taken from The Element Encyclopedia of Secret Societies and Hidden History, first published by HarperElement in 2006"
+504 ## $a Includes bibliographical references and index.
+520 ## $a Discover 10,000 years of the shadowy side of our world in this treasure trove of alternative history. The Element Encyclopedia of Secret Societies features detailed information about secret societies from Freemasons to the Bavarian Illuminati, lost civilisations from the Mayan culture to Atlantis and key figures from Da Vinci to Hitler. Complete with intriguing insights about unsolved historical mysteries like the location of the Holy Grail and the fate of the Knights Templar, plus conspiracy theories, ancient wisdom and forgotten sciences, it's everything you need to dig deeper into the hidden histories of our world. --Back cover
+650 #0 $a Secret societies $v Encyclopedias.
+650 #0 $a Occultism $v Encyclopedias.
+650 #0 $a Conspiracies $v Encyclopedias.
+830 #0 $a Element encyclopedia.`,
+    commentary: `LCC Classification for Social sciences, then Societies: Secret, benevolent, etc.—Secret societies—History and description—General works, fits because it's a reference book spanning across regions and timespans. The 050 #4 is well-earned, because the book has no Library of Congress record! It's a UK publication (264), distributed by Barnes & Noble bargain book. 366 is the DC for secret societies, but an encyclopedia gets the .03 subdivision. For subject headings, Secret Societies seemed best; Occultism, for hidden knowledge; Conspiracies, the narrower term for "History" or "Political crimes and offenses." To compare with another record, I searched for Ritual America Secret Brotherhoods and Their Influence on American Society: A Visual Guide in the Library of Congress and it too doesn't have a record. Coincidence?`,
+  },
+  {
+    id: 'high_priest',
+    title: 'High Priest of California & Wild Wives',
+    author: 'Charles Willeford',
+    facsimile: 'facsimiles/High Priest of California-Wild Wives.pdf',
+    marc: `020 ## $a 0940642115
+020 ## $a 9780940642119
+050 00 $a PS3545.I464 $b H54 1987
+082 00 $a 813.54 $2 20
+100 1# $a Willeford, Charles Ray, $d 1919-1988, $e author.
+245 10 $a High priest of California ; $b Wild wives / $c Charles Willeford.
+264 #1 $a San Francisco, CA : $b Re/Search Publications, $c 1987.
+264 #4 $c © 1987
+300 ## $a 175, 124 pages : $b illustrations (photographs) ; $c 19 cm
+336 ## $a text $b txt $2 rdacontent
+336 ## $a still image $b sti $2 rdacontent
+337 ## $a unmediated $b n $2 rdamedia
+338 ## $a volume $b nc $2 rdacarrier
+490 1# $a Re/Search classics
+500 ## $a Dos-à-dos (tête-bêche) binding; titles bound back to back and inverted.
+500 ## $a No collective title page; titles transcribed from individual title pages.
+500 ## $a "High priest of California (play)": p. 128-175.
+500 ## $a "Photo illustrated. Contains 2 novels & a play"--Covers.
+504 ## $a Includes bibliography (p. [7], 2nd group).
+505 0# $a [High priest of California (novel)] -- High priest of California (play, in three acts) -- [Wild wives].
+520 ## $a Omnibus dos-à-dos edition containing two early noir novels by Willeford set in 1950s San Francisco. High priest of California follows Russell Haxby, an amoral used-car salesman who manipulates women for sex. Wild wives involves a private detective drawn into blackmail and violence. Also includes the first publication of Willeford's three-act play High priest of California, an introduction by Lou Stathis, and a bibliography.
+650 #0 $a Private investigators $z California $z San Francisco $v Fiction.
+650 #0 $a Men $x Sexual behavior $z California $v Fiction.
+651 #0 $a San Francisco (Calif.) $v Fiction.
+700 1# $a Stathis, Lou, $e writer of introduction.
+700 1# $a Adams, Bobby Neel, $e photographer.
+700 12 $i Contains (work): $a Willeford, Charles Ray, $d 1919-1988. $t Wild wives.
+700 12 $i Contains (work): $a Willeford, Charles Ray, $d 1919-1988. $t High priest of California.
+830 #0 $a Re/Search classics.`,
+    commentary: `Fun! LCC number for American authors with W from the 20th century. A reprint paying homage to double-books like William S. Burroughs's Junky, there's no shared title page. 245 has to use the $b for the second work's title. The RDA categories are different because the book has photographs; likewise, I credited the photographer in the 700 field, in contrast to LOC's record; I used the RDA convention for "contains work". 830 field displays a cool imprint but won't return JSON when I search by series in the LOC's catalog :(`,
+  },
+  {
+    id: 'murdle',
+    title: 'Murdle: Volume 2',
+    subtitle: '100 Elementary to Impossible Mysteries',
+    author: 'G. T. Karber',
+    facsimile: 'facsimiles/Murdle.pdf',
+    marc: `020 ## $a 9781250892324 $q (paperback)
+050 #4 $a GV1507 $b K37 2023
+082 04 $a 793.73 $2 23
+100 1# $a Karber, G. T., $e author.
+245 10 $a Murdle. $n Volume 2 : $b 100 elementary to impossible mysteries to solve using logic, skill, and the power of deduction / $c G. T. Karber.
+250 ## $a First edition.
+264 #1 $a New York : $b St. Martin's Griffin, $c 2023.
+264 #4 $c © 2023
+300 ## $a iii, 379 pages : $b illustrations ; $c 24 cm.
+336 ## $a text $b txt $2 rdacontent
+336 ## $a still image $b sti $2 rdacontent
+337 ## $a unmediated $b n $2 rdamedia
+338 ## $a volume $b nc $2 rdacarrier
+490 0# $a Murdle ; $v volume 2
+500 ## $a "Now in print, the puzzle sensation from Murdle.com"--Cover.
+520 ## $a Deductive Logico is back on the scene in Murdle: Volume 2. Based on the sensational hit online game, these clever and hilarious mini-mystery puzzles will challenge you to find whodunit, how, where, and why. Unearth the dark secrets of the Violet Isles, solve the riddles of an ancient and mysterious scholar, and explore the haunted lands of Drakonia...if you dare.
+650 #0 $a Lateral thinking puzzles.
+650 #0 $a Puzzles.
+655 #7 $a Mystery fiction. $2 lcgft
+655 #7 $a Puzzles and games. $2 lcgft
+655 #7 $a Logic puzzles. $2 lcgft`,
+    commentary: `I picked this record because I wanted to see where one would shelve a game book that appeals to mystery readers. The LOC record didn't include LCC number or Dewey classification! I went with general classifications, Recreation & Leisure--Word Games and the broad DCC classification of word games. The 655 fields, genre and form terms, are much better for games and I added one extra in hopes this record is findable for mystery readers!`,
+  },
+  {
+    id: 'part_of_our_lives',
+    title: 'Part of Our Lives',
+    subtitle: "A People's History of the American Public Library",
+    author: 'Wayne A. Wiegand',
+    facsimile: 'facsimiles/Part of our lives.pdf',
+    marc: `020 ## $a 9780190660291 $q (paperback)
+050 #4 $a Z731 $b .W734 2015
+082 04 $a 027.473 $2 23
+100 1# $a Wiegand, Wayne A., $d 1946- $e author.
+245 10 $a Part of our lives : $b a people's history of the American public library / $c Wayne A. Wiegand.
+264 #1 $a New York : $b Oxford University Press, $c 2015.
+264 #4 $c © 2015
+300 ## $a 331 pages ; $c 26 cm
+336 ## $a text $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+500 ## $a First issued as Oxford University Press paperback, 2017.
+504 ## $a Includes bibliographical references and index.
+505 0# $a Introduction: So much more than information -- 1. "Improv'd the general conversation of Americans": Social libraries before 1854 -- 2. For "plain people": The American public library, 1854-1876 -- 3. "The best reading for the greatest number at the least cost": 1876-1893 -- 4. "The liberty to read what they will and when": The Carnegie era, 1893-1917 -- 5. "Habitations on a literary map": 1917-1929 -- 6. "One island of refuge": The Great Depression and World War II, 1929-1945 -- 7. "Winning the battles of daily life": 1945-1964 -- 8. "An individual meaning to each user": 1964-1980 -- 9. "Library paste is a precious part of social glue": 1981-2000 -- 10. Information, reading, and place: 2001-present.
+520 ## $a Examines the American public library from a bottom-up perspective since the mid-nineteenth century, focusing on how users of varied backgrounds used library spaces and reading to build community and a sense of belonging, while also exploring how libraries both shaped and were shaped by the cultures they served, including their role in mediating controversial materials and community values.
+650 #0 $a Public libraries $z United States $x History.
+650 #0 $a Library users $z United States $x History.
+650 #0 $a Libraries and society $z United States $x History.
+650 #0 $a Books and reading $z United States $x History.`,
+    commentary: `This one was tricky because of knowing when I could add the $x History subdivision. The library subject headings seem better suited for works on how to run a library, rather than the history of libraries. The book's cover page offered suggested subject headings.`,
+  },
+  {
+    id: 'astro_zine',
+    title: 'A Pocket Guide to Natal Astrology',
+    subtitle: 'Birth Chart Basics',
+    author: 'Maia Sky',
+    facsimile: 'facsimiles/Astro zine.pdf',
+    marc: `020 ## $a 9781648414916
+050 #4 $a BF1708.1 $b .S59 2025
+082 04 $a 133.542 $2 23
+099 ## $a ZINE SKY
+100 1# $a Sky, Maia, $e author.
+245 12 $a A pocket guide to natal astrology : $b birth chart basics / $c Maia Sky.
+264 #1 $a Portland, Oregon : $b Microcosm Publishing, $c 2025.
+264 #4 $c © 2025
+300 ## $a 1 volume (61) : $b color illustrations ; $c 14 cm
+336 ## $a text $2 rdacontent
+336 ## $a still image $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+500 ## $a "This is Microcosm #1002."
+520 ## $a A guide to natal astrology covering birth chart basics, including signs, houses, aspects, and angles, with journaling and reflection questions.
+650 #0 $a Astrology.
+650 #0 $a Natal astrology.
+650 #0 $a Horoscopes.
+650 #0 $a Birth charts.
+655 #7 $a Zines. $2 lcgft`,
+    commentary: `Mostly, this record was like a typical periodical and adding a 655 for zines and a 099 for local cataloging notes of shelving it on the zine shelf makes sense. Likewise, because this is a general resource, I selected broad and general subject headings.`,
+  },
+  {
+    id: 'opus',
+    title: "Satoshi Kon's Opus",
+    author: 'Satoshi Kon',
+    facsimile: 'facsimiles/Opus.pdf',
+    marc: `020 ## $a 9781616556068 $q (pbk.)
+041 1# $a eng $h jpn
+050 #4 $a PN6790.J33 $b K65713 2014
+082 04 $a 741.5965 $2 23
+100 1# $a Kon, Satoshi, $d 1963-2010, $e author, $e artist.
+240 10 $a Opus. $l English
+245 10 $a Satoshi Kon's Opus / $c story and art by Satoshi Kon ; editor, Carl Gustav Horn ; translated by Zack Davisson ; lettering and retouch by IHL.
+246 30 $a Opus
+250 ## $a First edition.
+264 #1 $a Milwaukie, OR : $b Dark Horse Manga, $c 2014.
+264 #4 $c © 2011 Kon'Stone, Inc.
+300 ## $a 363 pages : $b chiefly illustrations (some color) ; $c 21 cm
+336 ## $a text $2 rdacontent
+336 ## $a still image $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+500 ## $a This book reads from right to left.
+500 ## $a Contains: Opus volumes 1-2.
+500 ## $a Originally published: Tokyo : Tokuma Shoten Publishing, 2011.
+520 ## $a "Metafictional tale of Chikara Nagai, a manga creator under pressure to finish his graphic novel Resonance, who finds that the harshest critic of his planned shock ending is the character who will have to die in it! Nagai's strengths and weaknesses as a creator are tested beyond their limits as his present and his past, and the worlds of manga and reality, become the levels of a maze he may never escape…let alone get a chance to resolve the story!" --Back cover
+650 #0 $a Graphic novels $z Japan $x Authorship $v Comic books, strips, etc.
+655 #0 $a Graphic novels.
+655 #0 $a Science fiction comic books, strips, etc.
+700 1# $a Horn, Carl Gustav, $e editor.
+700 1# $a Davisson, Zack, $e translator.
+880 1# $a 今,敏, $d 1963-2010, $e author, $e artist.`,
+    commentary: `This book was mostly straightforward, with a notes field for reading order. I added a 041, because this is a work in translation. Authorship is a weird subject heading, but the Metafiction has a USE Fiction--Technique, which doesn't fit. I included the translator and the listed editor as both are involved in localizing Japanese comics. I added the Japanese title, as that would make sense to search for this work, citing the National Diet Library Web Authority file.`,
+  },
+  {
+    id: 'tropic_of_the_sea',
+    title: 'Tropic of the Sea',
+    author: 'Satoshi Kon',
+    facsimile: 'facsimiles/Tropic of the sea.pdf',
+    marc: `020 ## $a 9781939130068
+041 1# $a eng $h jpn
+050 #4 $a PN6790.J33 $b K65513 2013
+082 04 $a 741.5952 $2 23
+100 1# $a Kon, Satoshi, $d 1963-2010, $e author, $e illustrator.
+240 10 $a Kaikisen. $l English
+245 10 $a Tropic of the sea / $c Satoshi Kon ; translation, Maya Rosewood.
+250 ## $a First edition.
+264 #1 $a New York, NY : $b Vertical Inc., $c 2013.
+264 #4 $c © 2013
+300 ## $a vi, 207 pages : $b illustrations ; $c 19 cm
+336 ## $a text $2 rdacontent
+336 ## $a still image $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+500 ## $a Originally published in Japanese as Shinsouban Kaikisen by Kodansha, Ltd., 2011.
+500 ## $a Reads from right to left.
+520 ## $a "Yosuke Yashiro's family has a strange, unique tradition—once every sixty years they receive an egg from a mermaid where it sits protected in a shrine. Once the egg matures the family dutifully returns it to the sea, where the whole process is repeated. In exchange for this favor, the mer-people bless their coastal town with bountiful catches of fish and calm seas. But as commercial developers encroach on the sleepy seaside hamlet and Yosuke's father is lured away from tradition towards modern prosperity and turns the mermaid's egg into a tourist trap, what will happen to the promise their family made to the mermaids all those years ago?" --Back cover
+650 #0 $a Sea gods $z Japan $v Comic books, strips, etc.
+655 #0 $a Graphic novels.
+700 1# $a Rosewood, Maya, $e translator.
+700 1# $i Translation of: $a Kon, Satoshi, $d 1963-2010. $t Kaikisen.
+880 1# $a 今,敏, $d 1963-2010, $e author, $e artist.`,
+    commentary: `I wanted to do another Kon book to see how translators manifest differently; the 700 field could be good for finding similar works. The 650 field with Sea gods feels apt for describing the book, and the subdivisions add specificity. Again, I added Kon's authority file in English and Japanese.`,
+  },
+  {
+    id: 'cyoa',
+    title: 'War with the Evil Power Master',
+    subtitle: 'Choose Your Own Adventure #12',
+    author: 'R. A. Montgomery',
+    facsimile: 'facsimiles/CYOA.pdf',
+    marc: `020 ## $a 9781933390123 $q pbk.
+050 #4 $a PZ7.M7684 $b Wa 2006
+082 04 $a [Fic] $2 22
+100 1# $a Montgomery, R. A., $e author.
+245 10 $a War with the evil power master / $c by R.A. Montgomery ; illustrated by Jason Millet ; cover illustrated by J. Donploypetch.
+250 ## $a Revised edition.
+264 #1 $a Waitsfield, Vermont : $b Chooseco, $c [2006]
+264 #4 $c ©1984, ©2006
+300 ## $a 130 pages : $b illustrations ; $c 18 cm
+336 ## $a text $2 rdacontent
+337 ## $a unmediated $2 rdamedia
+338 ## $a volume $2 rdacarrier
+490 1# $a Choose your own adventure ; $v 12
+500 ## $a Originally published: New York : Bantam Books, ©1984. (Choose your own adventure ; 37)
+520 ## $a The Evil Power Master is back. Planets Haemog and Arouth have been destroyed, and his next attack could come at any moment. Once he has started, he won't stop — until he runs into you and your trusty Martian mate, Flppto.
+650 #1 $a Space warfare $v Fiction.
+650 #1 $a Extraterrestrial beings $v Fiction.
+655 #7 $a Choose-your-own stories. $2 lcgft
+655 #7 $a Science fiction. $2 lcgft
+700 1# $a Millet, Jason, $e illustrator.
+700 1# $a Donploypetch, J., $e cover illustrator.
+830 #0 $a Choose your own adventure ; $v 12.`,
+    commentary: `I picked this as a YA game book in a series. PZ7 for all YA fiction surprised me; [Fic] seemed best fit because the DCC correlations were for sheet music? The form terms for Choose-your-own stories seemed best (and also, doesn't break CYOA's aggressive copyright), while Space Warfare (UF space war) and Extraterrestrial (UF aliens). Overall, I found these difficult to pick, and the LoC record has more selected headings than my record.`,
+  }
+];
+
+// ─── RENDER PDF COVER INTO A CANVAS ──────────────────────────────
+async function renderPdfCover(pdfPath, canvas) {
+  try {
+    const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+    const page = await pdf.getPage(1);
+    const containerWidth = canvas.parentElement.offsetWidth || 300;
+    const viewport = page.getViewport({ scale: 1 });
+    const scale = containerWidth / viewport.width;
+    const scaled = page.getViewport({ scale });
+    canvas.width  = scaled.width;
+    canvas.height = scaled.height;
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport: scaled }).promise;
+  } catch (e) {
+    console.warn('Cover render failed for', pdfPath, e);
+  }
+}
+
+// ─── RENDER GRID ─────────────────────────────────────────────────
+const grid = document.getElementById('book-grid');
+books.forEach(book => {
+  const card = document.createElement('div');
+  card.className = 'book-card';
+
+  const canvas = document.createElement('canvas');
+
+  const inner = document.createElement('div');
+  inner.className = 'book-card-inner';
+  inner.appendChild(canvas);
+
+  const overlayEl = document.createElement('div');
+  overlayEl.className = 'book-card-overlay';
+  overlayEl.innerHTML = '<span>View Record →</span>';
+  inner.appendChild(overlayEl);
+
+  const titleEl = document.createElement('p');
+  titleEl.className = 'book-title';
+  titleEl.textContent = book.title;
+
+  const authorEl = document.createElement('p');
+  authorEl.className = 'book-author';
+  authorEl.textContent = book.author;
+
+  card.appendChild(inner);
+  card.appendChild(titleEl);
+  card.appendChild(authorEl);
+  card.addEventListener('click', () => openModal(book, books.indexOf(book)));
+  grid.appendChild(card);
+
+  // Render cover asynchronously
+  renderPdfCover(book.facsimile, canvas);
+});
+
+// ─── MODAL LOGIC ─────────────────────────────────────────────────
+const overlay     = document.getElementById('modal-overlay');
+const closeBtn    = document.getElementById('modal-close');
+const modalCover  = document.getElementById('modal-cover-area');
+const modalTitle  = document.getElementById('modal-title');
+const modalAuthor = document.getElementById('modal-author');
+const modalDownload = document.getElementById('modal-download');
+const modalMarc        = document.getElementById('modal-marc');
+const modalCommentary  = document.getElementById('modal-commentary');
+const modalPrev        = document.getElementById('modal-prev');
+const modalNext        = document.getElementById('modal-next');
+
+let currentIndex = 0;
+
+function openModal(book, index) {
+  currentIndex = (index !== undefined) ? index : books.findIndex(b => b.id === book.id);
+  // Render cover in modal
+  modalCover.innerHTML = '';
+  const mc = document.createElement('canvas');
+  mc.style.width  = '100%';
+  mc.style.height = '100%';
+  mc.style.display = 'block';
+  mc.style.objectFit = 'cover';
+  modalCover.appendChild(mc);
+  setTimeout(() => renderPdfCover(book.facsimile, mc), 0);
+
+  modalTitle.textContent  = book.subtitle ? `${book.title}: ${book.subtitle}` : book.title;
+  modalDownload.href      = book.facsimile;
+  modalDownload.download  = book.facsimile.split('/').pop();
+
+  // MARC record
+  if (book.marc) {
+    modalMarc.innerHTML = `<pre class="marc-record">${book.marc}</pre>`;
+  } else {
+    modalMarc.innerHTML = `<div class="marc-pending">
+      MARC 21 record not yet created for this item.<br>
+      <small style="font-size:0.75em;margin-top:0.4rem;display:block;">Record forthcoming — check back soon.</small>
+    </div>`;
+  }
+
+  // Commentary
+  modalCommentary.textContent = book.commentary || '';
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+modalPrev.addEventListener('click', () => {
+  const prev = (currentIndex - 1 + books.length) % books.length;
+  openModal(books[prev], prev);
+});
+modalNext.addEventListener('click', () => {
+  const next = (currentIndex + 1) % books.length;
+  openModal(books[next], next);
+});
+
+function closeModal() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+closeBtn.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
