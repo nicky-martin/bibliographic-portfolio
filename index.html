@@ -618,16 +618,7 @@
     <p class="section-head">02 — About This Project</p>
     <div class="about-body">
       <div>
-        <h3>Project Overview</h3>
-        <p>
-          This portfolio was created as a final project for Dr. Bobby Bothmann's Advanced Bibliographic Metadata in May 2026. Each MARC 21 record was created following descriptive cataloging standards, spanning a range of works and formats to demonstrate cataloging proficiency.
-        </p>
-      </div>
-      <div>
-        <h3>Standards &amp; Facsimiles</h3>
-        <p>
-          All records follow <em>MARC 21 Format for Bibliographic Data</em> as maintained by the Library of Congress. Descriptive elements adhere to Resource Description and Access (RDA) conventions. Facsimile PDFs are available for download with the link in each record's detail panel.
-        </p>
+        <p>This portfolio was created as a final project for Dr. Bobby Bothmann's Advanced Bibliographic Metadata in May 2026. Each MARC 21 record was created following descriptive cataloging standards, spanning a range of works and formats to demonstrate cataloging proficiency.</p>
       </div>
     </div>
   </section>
@@ -637,12 +628,16 @@
     <p class="section-head">03 — Works Cited</p>
     <div id="citations-list">
       <p class="citation">Fort, C. (2008). <em>The book of the damned: The collected works of Charles Fort</em> (1st Jeremy P. Tarcher/Penguin collected ed). Jeremy P. Tarcher/Penguin.</p>
+      <p class="citation">Amazon.com: The complete books of Charles Fort: Dover occult (Audible audio edition): Charles Fort, Graham Dunlop, Adultbrain Publishing: Books. (n.d.). Retrieved May 11, 2026, from <a href="https://www.amazon.com/Complete-Books-Charles-Fort-Occult/dp/B0CJWN27TG/" target="_blank">https://www.amazon.com/Complete-Books-Charles-Fort-Occult/dp/B0CJWN27TG/</a></p>
       <p class="citation">Karber, G. T. (2023). <em>Murdle: 100 elementary to impossible mysteries to solve using logic, skill, and the power of deduction. Volume 2</em> (First edition). St. Martin's Griffin.</p>
       <p class="citation">Kon, S., Horn, C. G., &amp; Davisson, Z. (2014). <em>Satoshi Kon's Opus</em> (First edition). Dark Horse Manga.</p>
       <p class="citation">Kon, S., &amp; Rosewood, M. (2013). <em>Tropic of the sea</em> (First edition). Vertical Inc.</p>
       <p class="citation">Noble, B. &amp; (n.d.). <em>The Element Encyclopedia of Secret Societies: The Ultimate A-Z of Ancient Mysteries, Lost Civilizations and Forgotten Wisdom.</em> Barnes &amp; Noble. Retrieved May 10, 2026, from <a href="https://www.barnesandnoble.com/w/the-element-encyclopedia-of-secret-societies-john-michael-greer/1102805482" target="_blank">https://www.barnesandnoble.com/w/the-element-encyclopedia-of-secret-societies-john-michael-greer/1102805482</a></p>
       <p class="citation">Robbins, C. S., Bruun, B., &amp; Zim, H. S. (1983). <em>Birds of North America: A guide to field identification</em> (Expanded, rev. ed). Golden Press.</p>
       <p class="citation">Sky, Maia (2025). <em>A Pocket Guide to Natal Astrology: Birth Chart Basics.</em> Microcosm Publishing. Retrieved May 10, 2026, from <a href="https://microcosmpublishing.com/catalog/zines/62940" target="_blank">https://microcosmpublishing.com/catalog/zines/62940</a></p>
+      <p class="citation">American abductions. (n.d.). Dalkey Archive Press. Retrieved May 11, 2026, from <a href="https://dalkeyarchive.store/products/american-abductions" target="_blank">https://dalkeyarchive.store/products/american-abductions</a></p>
+      <p class="citation">Mann, M. (Director &amp; Writer), &amp; Linson, A. (Producer). (1995). <em>Heat</em> [Film; Director's Definitive Edition, 2022]. Forward Pass Productions; Regency Enterprises; Warner Bros. Home Entertainment.</p>
+      <p class="citation">Capital | Princeton University Press. (2024, September 17). <a href="https://press.princeton.edu/books/hardcover/9780691190075/capital" target="_blank">https://press.princeton.edu/books/hardcover/9780691190075/capital</a></p>
       <p class="citation">Wiegand, W. A. (2015). <em>Part of our lives: A people's history of the American public library.</em> Oxford University Press.</p>
       <p class="citation">Willeford, C. R., &amp; Willeford, C. R. (1987). <em>High priest of California ; Wild wives.</em> Re/Search Publications.</p>
     </div>
@@ -995,12 +990,178 @@ const books = [
 700 1# $a Donploypetch, J., $e cover illustrator.
 830 #0 $a Choose your own adventure ; $v 12.`,
     commentary: `I picked this as a YA game book in a series. PZ7 for all YA fiction surprised me; [Fic] seemed best fit because the DCC correlations were for sheet music? The form terms for Choose-your-own stories seemed best (and also, doesn't break CYOA's aggressive copyright), while Space Warfare (UF space war) and Extraterrestrial (UF aliens). Overall, I found these difficult to pick, and the LoC record has more selected headings than my record.`,
+  },
+  {
+    id: 'capital',
+    title: 'Capital',
+    subtitle: 'Volume 1: Critique of Political Economy',
+    author: 'Karl Marx',
+    facsimile: 'facsimiles/capital.pdf',
+    marc: `020 ## $a 978-0-691-19007-5
+050 #4 $a HB501 $b .M35 2024
+082 04 $a 507.2098 $2 23
+100 1# $a Marx, Karl, $e author.
+240 10 $a Kapital $l English
+245 14 $a Capital $n Volume 1 $b critique of political economy / $c Karl Marx ; translated by Paul Reitter ; edited by Paul North & Paul Reitter ; forward by Wendy Brown ; afterward by William Clare Roberts.
+264 #1 $a Princeton $b Princeton University Press $c [2024]
+264 #4 $c ©2024
+300 ## $a 851 pages : $c 25 cm
+336 ## $a text $b txt $2 rdacontent
+337 ## $a unmediated $b n $2 rdamedia
+338 ## $a volume $b nc $2 rdacarrier
+504 ## $a Includes bibliographical references and index.
+505 0# $a The Commodity -- The Exchange Process -- Money, or Commodity Circulation -- The Labor Process and the Valorization Process -- Constant Capital and Variable Capital -- The Rate of Surplus Value -- The Working Day -- The Rate and Amount of Surplus Value -- The Concept of Relative Surplus-Value -- Cooperation -- The Division of Labor and the Manufacturing System -- Machinery and Large-Scale Industry -- Absolute and Relative Surplus Value -- The Price of Labor-Power and the Magnitude of Surplus-Value Increase and Decrease -- Different Formulas for the Rate of Surplus-Value -- How the Value and Price of Labor-Power Are Transformed into Wages -- Time Wages -- Piece Wages -- Variations in Wages from Nation to Nation -- Simple Reproduction -- How Surplus-Value Is Transformed Into Capital -- The Genral Law of Capitalist Accumulation -- The So-Called Original Accumulation -- The Modern Theory of Colonization.
+520 ## $a "A major new translation of the explosive book that transformed our world…this magnificent new edition of Capital is a translation of Marx for the twenty-first century. It is the first translation into English to be based on the last German edition revised by Marx himself, the only version that can be called authoritative, and it features extensive commentary and annotations by Paul North and Paul Reitter that draw on the latest scholarship and provide invaluable perspective on the book and it's complicated legacy…" Discussing "Capital's Process of Production," "The Commodity and Money," "The Transformation of Money into Capital" "The Production of Absolute Surplus-Value," "The Production of Relative Surplus-Value," "The Production of Absolute and Relative Surplus-Value," "Wages," and "Capital's Process of Accumulation."
+650 #0 $a Capital
+730 08 $i Complemented by (expression): $a Marx, Karl $t Capital $h spoken word`,
+    commentary: `This record showed me how a new translation, copyright statement, the 264 $c field, all go into surfacing the newest edition for the book when a reader is searching for it. If a reader is looking for Capital, perhaps they'd prioritize what's available to checkout, but they also might prefer to consider the newest edition.`,
+  },
+  {
+    id: 'abductions',
+    title: 'American Abductions',
+    subtitle: 'A Novel',
+    author: 'Mauro Javier Cárdenas',
+    facsimile: 'facsimiles/abductions.pdf',
+    marc: `020 ## $a 9781628975185
+050 #4 $a PS3603.A7346 $b A83 2024
+050 #4 $a JV6475 $b A83 2024
+082 04 $a 813.6 $2 23
+082 04 $a 305.9069120973
+100 1# $a Cárdenas, Mauro Javier, $e author.
+240 10 $a American Abductions.
+245 14 $a American Abductions : $b A Novel / $c Mauro Javier Cárdenas.
+250 ## $a First North American Edition, 2024.
+264 #1 $a Dallas, TX / Rochester, NY $b Dalkey Archive Press $c [2024]
+264 #4 $c ©2024
+300 ## $a 229 pages : $c 22 cm
+336 ## $a text $b txt $2 rdacontent
+337 ## $a unmediated $b n $2 rdamedia
+338 ## $a volume $b nc $2 rdacarrier
+520 ## $a An author is deported from America and it changes his life, and the lives of his family for generations. "Torrential and dreamlike, Mauro Javier Cardenas's novel unfurls into a layered, poignant, and unflinching portrait of how family separations have impacted the minds of Latin American deportees in a technology-bound twenty-first century."
+650 #0 $a Political Fiction $v Fiction
+650 #0 $a Deportees $v Fiction $z United States`,
+    commentary: `This record really showed me the ontological implications of cataloging. Arguably, all fiction is political fiction. I don't think this subject would help readers find this; it's not about politics, like All The King's Men. I imagine readers searching "deportations" or "abductions." My professor suggested adding another access point to make the book more findable and I think that's a good call, using LCC for Deportees.`,
+  },
+  {
+    id: 'heat',
+    title: 'Heat',
+    subtitle: "Director's Definitive Edition",
+    author: 'Michael Mann',
+    facsimile: 'facsimiles/heat.pdf',
+    marc: `024 1# $a 786936889246
+041 0# $a eng $a spa $a fre $j eng $j spa $j fre
+050 #4 $a PN1997 $b .H43 2022
+082 04 $a 791.4372 $2 23
+100 1# $a Mann, Michael, $d 1943- $e director, $e screenwriter.
+245 10 $a Heat / $c written and directed by Michael Mann ; produced by Michael Mann and Art Linson ; a Forward Pass production in association with Regency Enterprises ; Warner Bros.
+250 ## $a Director's definitive edition, ultimate collector's edition.
+264 #1 $a Burbank, California : $b Warner Bros. Home Entertainment, $c [2022]
+264 #4 $c © 1995 Regency Entertainment (USA), Inc. ; © 2022 Warner Bros. Entertainment Inc.
+300 ## $a 3 videodiscs (approximately 170 min.) : $b sound, color ; $c 4 3/4 in., 4K UHD + Blu-ray
+336 ## $a two-dimensional moving image $2 rdacontent
+337 ## $a video $2 rdamedia
+338 ## $a videodisc $2 rdacarrier
+344 ## $a digital $2 rda
+347 ## $a video file $2 rda
+500 ## $a Director's definitive edition subtitle from disc label.
+500 ## $a Title from disc label.
+500 ## $a Originally released as a motion picture in 1995.
+500 ## $a Rating: R (violence and language).
+500 ## $a Disc 1: 4K UHD — Heat in high definition, director's audio commentary, director's Q&A with Michael Mann. Disc 2: Blu-ray — Heat, director's audio commentary. Disc 3: Blu-ray bonus — Q&A with Christopher Nolan, 3-part making-of documentary, deleted scenes, Pacino and De Niro: the conversation, return to the scene of the crime.
+511 1# $a Al Pacino, Robert De Niro, Val Kilmer, Tom Sizemore, Diane Venora, Amy Brenneman, Ashley Judd, Mykelti Williamson, Wes Studi, Ted Levine, Jon Voight.
+508 ## $a Music, Elliot Goldenthal ; directors of photography, Dante Spinotti ; film editors, Dov Hoenig, Pasquale Buba ; production designer, Neil Spisak.
+520 ## $a An obsessive detective (Pacino) hunts a ruthless, professional thief (De Niro) through the streets of Los Angeles. As the stakes escalate, their lives begin to mirror and unravel, prompting a dangerous and complex heist.
+538 ## $a 4K Ultra HD, 2160p, widescreen (2.40:1) ; Blu-ray, 1080p widescreen (2.40:1).
+538 ## $a Audio: English 5.1 DTS-HDMA, Spanish 2.0 Dolby Digital, French 5.1 DTS language tracks.
+538 ## $a Subtitles: English SDH, Spanish, French.
+521 ## $a Rated R: violence and language.
+650 #0 $a Police $z California $z Los Angeles $v Drama.
+650 #0 $a Criminals $z California $z Los Angeles $v Drama.
+651 #0 $a Los Angeles (Calif.) $v Drama.
+655 #7 $a Crime films. $2 lcgft
+655 #7 $a Thriller films. $2 lcgft
+655 #7 $a Feature films. $2 lcgft
+700 1# $a Pacino, Al, $d 1940- $e actor.
+700 1# $a De Niro, Robert, $d 1943- $e actor.
+700 1# $a Kilmer, Val, $e actor.
+700 1# $a Linson, Art, $e producer.
+700 1# $a Goldenthal, Elliot, $d 1954- $e composer.
+710 2# $a Warner Bros. Entertainment, $e publisher.
+710 2# $a Regency Enterprises, $e production company.`,
+    commentary: `I used 024 for UPC standard identifier (my favorite). 041 is interesting for providing access to audio/subtitle tracks. Interesting reminder that LCC and DC are uselessly general for home media. The 538 field was much easier after AV Media Resources. I compared this record with the LoC record for the film print, and it makes sense how following RDA would make managing a library branch collection much easier. I wanted to do Heat for the first class, but it was too difficult at the time :)`,
+  },
+  {
+    id: 'fort_audio',
+    title: 'The Complete Books of Charles Fort',
+    subtitle: 'Lo! — New Lands — Wild Talents — The Book of the Damned',
+    author: 'Charles Fort',
+    facsimile: 'facsimiles/fortaudio.jpg',
+    marc: `020 ## $a 9798368932484
+028 42 $a B0CJWN27TG $b Adultbrain Publishing
+041 0# $a eng
+050 #4 $a AG243 $b .F66 2023
+082 04 $a 001.94 $2 23
+100 1# $a Fort, Charles, $d 1874-1932, $e author.
+245 14 $a The complete books of Charles Fort : $b Lo! -- New lands -- Wild talents -- The book of the damned / $c Charles Fort.
+264 #1 $a [Place of publication not identified] : $b Adultbrain Publishing, $c 2023.
+300 ## $a 1 online resource (approximately 47 hr.)
+336 ## $a spoken word $b spw $2 rdacontent
+337 ## $a computer $b c $2 rdamedia
+338 ## $a online resource $b cr $2 rdacarrier
+500 ## $a Unabridged.
+500 ## $a Title from Audible website.
+500 ## $a Originally published in print: New York : Dover Publications, 1974 (as The complete books of Charles Fort).
+505 0# $a Lo! -- New lands -- Wild talents -- The book of the damned.
+511 0# $a Narrated by Graham Dunlop.
+520 ## $a Collects Fort's four major works cataloging anomalous phenomena and data excluded by mainstream science, including reports of spontaneous combustion, teleportation, poltergeists, mysterious aerial phenomena, and other unexplained events.
+538 ## $a Mode of access: World Wide Web.
+538 ## $a Available through Audible and other digital audiobook platforms.
+588 ## $a Description based on Audible website, viewed 2025.
+650 #0 $a Curiosities and wonders.
+650 #0 $a Parapsychology.
+650 #0 $a Occultism.
+650 #0 $a Science $x Miscellanea.
+655 #7 $a Audiobooks. $2 lcgft
+700 1# $a Dunlop, Graham, $e narrator.
+700 02 $a Fort, Charles, $d 1874-1932. $t Book of the damned.
+700 02 $a Fort, Charles, $d 1874-1932. $t New lands.
+700 02 $a Fort, Charles, $d 1874-1932. $t Lo!
+700 02 $a Fort, Charles, $d 1874-1932. $t Wild talents.
+775 1# $i Print version: $a Fort, Charles, $d 1874-1932. $t Book of the damned. $d New York : Jeremy P. Tarcher/Penguin, 2008 $z 9781585426416`,
+    commentary: `A new audiobook manifestation of the Collected Works of Charles Fort. Unfortunately using AISN for 028. The books were reordered out of publication order for this manifestation.`,
   }
 ];
 
 // ─── RENDER PDF COVER INTO A CANVAS ──────────────────────────────
 async function renderPdfCover(pdfPath, canvas) {
   try {
+    if (/\.(jpe?g|png|gif|webp)$/i.test(pdfPath)) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const containerWidth = (canvas.parentElement ? canvas.parentElement.offsetWidth : 0) || 300;
+          const dpr = window.devicePixelRatio || 2;
+          const canvasH = containerWidth * 1.5; // 2:3 aspect ratio to match PDF covers
+          canvas.width  = containerWidth * dpr;
+          canvas.height = canvasH * dpr;
+          canvas.style.width  = containerWidth + 'px';
+          canvas.style.height = canvasH + 'px';
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          // Draw square image centered vertically
+          const srcSize = Math.min(img.naturalWidth, img.naturalHeight);
+          const sx = (img.naturalWidth  - srcSize) / 2;
+          const sy = (img.naturalHeight - srcSize) / 2;
+          const drawSize = containerWidth * dpr;
+          const offsetY = (canvas.height - drawSize) / 2;
+          ctx.drawImage(img, sx, sy, srcSize, srcSize, 0, offsetY, drawSize, drawSize);
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = pdfPath;
+      });
+    }
     const pdf = await pdfjsLib.getDocument(pdfPath).promise;
     const page = await pdf.getPage(1);
     const containerWidth = canvas.parentElement.offsetWidth || 300;
@@ -1014,6 +1175,12 @@ async function renderPdfCover(pdfPath, canvas) {
     console.warn('Cover render failed for', pdfPath, e);
   }
 }
+
+// ─── SORT ALPHABETICALLY (ignore leading articles) ──────────────
+function sortKey(title) {
+  return title.replace(/^(the|a|an)\s+/i, '').toLowerCase();
+}
+books.sort((a, b) => sortKey(a.title).localeCompare(sortKey(b.title)));
 
 // ─── RENDER GRID ─────────────────────────────────────────────────
 const grid = document.getElementById('book-grid');
